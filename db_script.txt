@@ -1,0 +1,121 @@
+﻿use oper_tool
+#物理机信息
+db.centos_info.save({domain:"192.168.88.5", u_server_reg_tm:NumberLong(0), netgd_port:"443",netgd_internal_port:"7001", safe_mgr_git_path:"/home/soft_mgr", contrib_git_path:"/home/arpg.git", server_mgr_git_path:"/home/server-mgr"})
+#逻辑服务器信息
+db.server_info.save({domain:"192.168.88.5",server_name:"2_1001",game_id:"1",pid:"2",sid:"1001",path:"/home/game_test",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"1",i_run_status:0})
+db.server_info.save({domain:"192.168.88.5",server_name:"2_1002",game_id:"1",pid:"2",sid:"1002",path:"/home/game_liuyanfei",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"10",i_run_status:0,centd_port:"1002"})
+#计划任务
+
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"测试开1服",i_plan_status:0,param:"2_1001,0"})
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"0,1;1;1;1;1;1;1;0,0,2_1003"})
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新其他服务器",i_plan_status:0,param:"0,2,0,2_1001"})
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新场景服",i_plan_status:0,param:"0,1,0,2_1001"})
+db.plan_task_info.save({plan_type:"stop",u_plan_excu_time:NumberLong(0),desc:"测试停服",i_plan_status:0,param:"2_1001"})
+db.plan_task_info.save({plan_type:"start",u_plan_excu_time:NumberLong(0),desc:"测试取消停服",i_plan_status:0,param:"2_1001"})
+
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"测试开2服",i_plan_status:0,param:"2_1002,0"})
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"0,0,0,2_1002"})
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新其他服务器",i_plan_status:0,param:"0,2,0,2_1002"})
+db.plan_task_info.save({plan_type:"stop",u_plan_excu_time:NumberLong(0),desc:"测试停服",i_plan_status:0,param:"2_1002"})
+db.plan_task_info.save({plan_type:"start",u_plan_excu_time:NumberLong(0),desc:"测试取消停服",i_plan_status:0,param:"2_1002"})
+
+db.plan_task_info.save({plan_type:"hefu",u_plan_excu_time:NumberLong(0),desc:"测试合服12",i_plan_status:0,param:"2_1001,2_1002"})
+
+-- 已经验证
+db.plan_task_info.save({plan_type:"stop",u_plan_excu_time:NumberLong(0),desc:"测试publish5停服",i_plan_status:0,param:"2_1005"})
+
+
+use cow_config
+db.addr_info.save({host_port: "163.177.157.77:443", "server_name_list" : "2_0" })
+db.addr_update_sign.save({u_update_time":NumberLong(1396865093)})
+
+
+-- 外网部署服务器
+mongo
+use admin
+db.auth('dev', 'asdf')
+use oper_tool
+db.server_info.save({domain:"14.17.112.99",server_name:"3_65535",game_id:"65535",pid:"3",sid:"65535",path:"/home/game_pk",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"1",i_server_type:1,i_run_status:0})
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开PK服",i_plan_status:0,param:"3_65535,0"})
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,3_65535"})
+
+-- 生成权限
+db.addUser('dev', 'asdf') 
+#物理机信息 NOTICE:双IP要注意app.domain == IP
+db.centos_info.save({domain:"14.17.112.99", u_server_reg_tm:NumberLong(0), netgd_port:"443",netgd_internal_port:"7001", safe_mgr_git_path:"/home/soft_mgr", contrib_git_path:"/home/arpg.git", server_mgr_git_path:"/home/server-mgr"})
+#逻辑服务器信息
+--i_server_type 0：游戏服, 1:PK服
+db.server_info.save({domain:"14.17.112.99",server_name:"3_1001",game_id:"1",pid:"3",sid:"1001",path:"/home/game_net",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"1",i_server_type:0,i_run_status:0})
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开外网服",i_plan_status:0,param:"3_1001,0"})
+
+-- db.server_info.save({domain:"192.168.88.5",server_name:"2_65535",game_id:"65535",pid:"2",sid:"65535",path:"/home/game_pk",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"1",i_server_type:1,i_run_status:0})
+-- db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开PK服",i_plan_status:0,param:"2_65535,0"})
+-- 更新 db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,2_65535"})
+
+-- db.server_info.save({domain:"192.168.88.5",server_name:"2_65534",game_id:"65534",pid:"2",sid:"65534",path:"/home/game_pk_local",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"10",i_server_type:1,i_run_status:0})
+-- db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开本地PK服",i_plan_status:0,param:"2_65534,0"})
+-- 更新 db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,2_65534"})
+
+-- 注意修改logind.conf的
+logdb_character = "127.0.0.1;27017;dev;asdf;;"
+
+-- 重启外网服务器
+mongo
+use admin
+db.auth('dev', 'asdf')
+use oper_tool
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,3_1001"})
+
+
+-- 重启外网跨服服务器
+mongo
+use admin
+db.auth('dev','asdf')
+use oper_tool
+
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,3_65535"})
+
+
+db.server_info.save({domain:"192.168.88.5",server_name:"2_1004",game_id:"1",pid:"2",sid:"1004",path:"/home/game_jzy",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"1",i_run_status:0})
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开1004服",i_plan_status:0,param:"2_1004,0"})
+
+开一个本地编辑服务器的服
+---------------------------------------
+mongo
+use admin
+db.auth('dev', 'asdf')
+use oper_tool
+
+db.server_info.save({domain:"192.168.88.5",server_name:"2_1007",game_id:"1",pid:"2",sid:"1007",path:"/home/game_liuxuan",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"10",i_run_status:0,centd_port:"1007"})
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开服",i_plan_status:0,param:"2_1007,0"})
+
+-----------------------------------------------------------------
+
+-- 排行榜清空
+mongo
+use admin
+db.auth('dev','asdf')
+use dtx_web
+db.match_rank_list.update({indx:1}, {$set:{rank_info:''}}, false, true)
+
+-- 重启跨服服务器
+mongo
+use admin
+db.auth('dev','asdf')
+use oper_tool
+
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,2_65535"})
+
+
+-- 重启1001服务器
+mongo
+use admin
+db.auth('dev','asdf')
+use oper_tool
+
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,2_1001"})
+
+-- 开启跨服web
+/opt/openresty/nginx/sbin/nginx -p /home/ext_web -c conf/nginx_extweb.conf
+-- 开启中间件
+/opt/openresty/nginx/sbin/nginx -p /home/conf_svr -c conf/nginx_conf_svr.conf
