@@ -407,12 +407,13 @@ class Action():
 				if world_port != None:
 					s += "world_port" + " = " + str(world_port) + "\n"
 				s += "logdb_log" + " = " + repath + os.sep + "log" + os.sep + "logind_logdb_chars.txt\n"
-				s += "logdb_character" + " = " + '"' + "127.0.0.1;27022;game07dteSDT14;yhJucifZ9ZFRZ3AM;;" + '"' + "\n"
+				s += "logdb_character" + " = " + '"' + "127.0.0.1;27017;dev;asdf;;" + '"' + "\n"
 				s += "showhand_netgd_host" + " = " + "showhand.tianshu.game2.com.cn\n"
 				s += "showhand_netgd_port" + " = " + "2500" + "\n"
 				s += "backup_hdd_path" + " = " + repath + os.sep + "var/\n"
 				s += "player_data_hdd_path" + " = " + repath + os.sep + "data/\n"
-				s += 'conf_svr = "http://172.23.234.177:30080/"\n'
+				s += 'conf_svr = "http://127.0.0.1:30080/\n'
+				s += 'ext_web_interface = "http://127.0.0.1:30081/"\n'
 				writefile.write(s)
 			if writefile.name == "policed.conf":
 				s = "game_id " + "=" + " " + str(gameid) + "\n"
