@@ -412,7 +412,7 @@ class Action():
 				s += "showhand_netgd_port" + " = " + "2500" + "\n"
 				s += "backup_hdd_path" + " = " + repath + os.sep + "var/\n"
 				s += "player_data_hdd_path" + " = " + repath + os.sep + "data/\n"
-				s += 'conf_svr = "http://127.0.0.1:30080/\n'
+				s += 'conf_svr = "http://127.0.0.1:30080/"\n'
 				s += 'ext_web_interface = "http://127.0.0.1:30081/"\n'
 				writefile.write(s)
 			if writefile.name == "policed.conf":
