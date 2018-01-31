@@ -29,6 +29,22 @@ use cow_config
 db.addr_info.save({host_port: "163.177.157.77:443", "server_name_list" : "2_0" })
 db.addr_update_sign.save({u_update_time":NumberLong(1396865093)})
 
+-- 合服
+--2_1003合到2_1007(param:合服目的服,要合的初始服务[支持多个])
+mongo
+use admin
+db.auth('dev', 'asdf')
+use oper_tool
+db.plan_task_info.save({plan_type:"hefu",u_plan_excu_time:NumberLong(0),desc:"test new hefu",i_plan_status:0,param:"2_1007,2_1003"})
+
+-- 拆服只是让合掉的服重新可以登录
+-- 合服完成 2_1003又可用 数据库要执行：
+use cow_config
+db.merge_server_list.update({server_name:"2_1003"},{$set:{merge_server:"2_1003"}})
+db.server_info.update({server_name:"2_1003"},{$set:{i_merge_status:0}})
+use oper_tool
+db.server_info.update({server_name:"2_1003"},{$set:{i_run_status:3}})
+
 
 -- 外网部署服务器
 mongo
@@ -66,7 +82,16 @@ db.auth('dev', 'asdf')
 use oper_tool
 db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,3_1001"})
 
+-- 重启外网2服务器
+mongo
+use admin
+db.auth('dev', 'asdf')
+use oper_tool
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,3_1002"})
 
+
+-- 刷新外网的脚本
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"刷新脚本",i_plan_status:0,param:"1,0;0;0;0;0;0;0;1,0,3_1001"})
 -- 重启外网跨服服务器
 mongo
 use admin
@@ -119,3 +144,50 @@ db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"
 /opt/openresty/nginx/sbin/nginx -p /home/ext_web -c conf/nginx_extweb.conf
 -- 开启中间件
 /opt/openresty/nginx/sbin/nginx -p /home/conf_svr -c conf/nginx_conf_svr.conf
+
+
+
+-- 部署一个新的服务器
+mongo
+use admin
+db.auth('dev','asdf')
+use oper_tool
+-- 物理地址
+db.centos_info.save({domain:"10.135.135.196", u_server_reg_tm:NumberLong(0), netgd_port:"443",netgd_internal_port:"7001", safe_mgr_git_path:"/home/soft_mgr", contrib_git_path:"/home/arpg.git", server_mgr_git_path:"/home/server-mgr"})
+-- 服务器信息
+db.server_info.save({domain:"10.135.135.196",server_name:"5_1001",game_id:"1001",pid:"5",sid:"1001",path:"/home/game_pub",branch:"master",login_key:"84adc98ee63b26e2063a796ac982ad77",s_test_type:"1",i_server_type:0,i_run_status:0})
+-- 操作
+db.plan_task_info.save({plan_type:"setup",u_plan_excu_time:NumberLong(0),desc:"开服",i_plan_status:0,param:"5_1001,0"})
+
+-- 重启服务器
+mongo
+use admin
+db.auth('game07jySDT00', 'ygLucifZ9ZFRZ23AM')
+use oper_tool
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"测试更新",i_plan_status:0,param:"1,1;1;1;1;1;1;1;0,0,5_1001"})
+
+
+-- 刷新脚本
+mongo
+use admin
+db.auth('game07jySDT00', 'ygLucifZ9ZFRZ23AM')
+use oper_tool
+db.plan_task_info.save({plan_type:"update",u_plan_excu_time:NumberLong(0),desc:"刷新脚本",i_plan_status:0,param:"1,0;0;0;0;0;0;0;1,0,5_1001"})
+
+use char_2_1003
+db.chars.remove({})
+
+use logs
+db.log_gm_command.remove({servername:"2_1003"})
+db.ht_basic_info_2.remove({servername:"2_1003"})
+db.ht_top_info.remove({servername:"2_1003"})
+db.log_gm_command.remove({servername:"2_1003"})
+
+use log_gold_ingot
+db.dropDatabase()
+
+use gm_recharge
+
+
+
+
